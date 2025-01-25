@@ -5,7 +5,7 @@ type NewStateFn<TState> = (state: TState) => TState
 type SetStateFn<TState> = (
   // Either user passes inline function to get access to current state
   // Or partial state object right way to update a field directly
-  newState: NewStateFn<TState>
+  newState: NewStateFn<TState> | TState
 ) => void
 
 type CreateStoreFn<TState> = (setFn: SetStateFn<TState>) => TState
@@ -24,7 +24,9 @@ export function createStore<TState>(createState: CreateStoreFn<TState>) {
     getState: () => state,
     setState: (newState) => {
       const nextState =
-        typeof newState === 'function' ? newState(state) : newState
+        typeof newState === 'function'
+          ? (newState as NewStateFn<TState>)(state)
+          : newState
 
       // Only update and notify if state actually changed
       if (!Object.is(nextState, state)) {
