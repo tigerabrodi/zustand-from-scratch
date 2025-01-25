@@ -4,6 +4,8 @@ I knew the ins and outs of [useSyncExternalStore](https://react.dev/reference/re
 
 Maybe I'll write a separate blog post about it.
 
+Here, I built the core version of Zustand.
+
 ---
 
 The implementation can be a bit hard to understand at first. Let's start by looking at it from the outside.
