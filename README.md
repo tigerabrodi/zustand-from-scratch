@@ -29,6 +29,24 @@ So for this entire thing to work, there is quite some internal implementation to
 
 ---
 
+Regarding type safety, it's really tricky.
+
+We could infer the default state from the callback. That's possible with `infer` and some TS magic (I actually pair coded with [MapleLeaf](https://github.com/itsMapleLeaf) a bit to see if it's possible)
+
+The problem is if you pass an empty array, do we infer it as `[]` or `Array<any>`?
+
+Ok, you can type cast the array as the user of `createStore` to make it work.
+
+But what about union types?
+
+Imagine you've status as `'loading' | 'success' | 'error' | 'idle'`. If it starts as idle, how do you know all the other possible values?
+
+It's really tricky.
+
+Maybe you could infer and tell users of your library to type cast arrays and union types. But that could quickly get messy.
+
+---
+
 ```js
 import { useSyncExternalStore } from 'react'
 
